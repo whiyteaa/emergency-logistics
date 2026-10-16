@@ -1148,7 +1148,7 @@ const LOG_SYS={
 const SPD={truck:9,uav:20}, CAP={truck:60,uav:18};
 /* ===== 全局状态 ===== */
 const S={phase:0,step:0,sim:0,stepTimer:null,transportTimer:null,introTimer:null,paused:false,
- cfg:{type:'洪灾',epic:'T1',level:2,speed:1},
+ cfg:{type:'洪灾',epic:'T2',level:1,speed:1},
  affected:[],blocked:new Set(),demands:{},tasks:[],logs:[],
  radius:0,targetR:0,seed:1,stock:{},usedT:{},usedU:{},busy:{},curCmd:{},muted:false,layer:'sat',voiceName:null,
  activeNow:[],engaged:{},routesDirty:true,flew:false};
@@ -1508,14 +1508,16 @@ function buildScenario(){
  const n1=g[epic].map(e=>e.to).filter(id=>ALL[id].type==='town');
  n1.forEach(id=>aff.add(id));
  if(level>=3)n1.forEach(id=>g[id].forEach(e=>{if(ALL[e.to].type==='town'&&hash01(e.to,S.seed)>.4)aff.add(e.to);}));
- if(level===1)aff=new Set([epic]);
+ if(level===1){aff=new Set([epic]);
+  const nt=POINTS.filter(p=>p.type==='town'&&p.id!==epic).sort((a,b)=>havKm(a.id,epic)-havKm(b.id,epic))[0];
+  if(nt)aff.add(nt.id);}
  S.affected=[...aff];
  const prob=[.22,.38,.55][level-1],c=ALL[epic];
  S.targetR=[8,14,20][level-1];
  EDGES.forEach((e,k)=>{
   if(havKm(e.a,epic)<S.targetR&&hash01(k,S.seed)<prob)S.blocked.add(k);});
  /* 保底：Ⅱ级以上至少中断一条距震中最近的道路，保证道路研判/空陆协同剧情成立 */
- if(level>=2&&!S.blocked.size){
+ if(!S.blocked.size){
   let best=-1,bd=1e9;
   EDGES.forEach((e,k)=>{const d=Math.min(havKm(e.a,epic),havKm(e.b,epic));
    if(d<bd){bd=d;best=k;}});
