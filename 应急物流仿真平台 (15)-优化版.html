@@ -578,7 +578,16 @@ const M={online:false,map:null,nodeMarkers:{},units:{},routeL:null,focusM:null,
  },
  focus(id){
   if(!M.online)return;
-  M.map.flyTo(ll(id),11.3,{duration:.8});
+  const tgt=ll(id);
+  M.map.flyTo(tgt,11.3,{duration:.8});
+  /* 镜头保险：飞行若被打断（窗口尺寸变化等），1.1s后校验并重飞 */
+  clearTimeout(M._focusChk);
+  M._focusChk=setTimeout(()=>{
+   if(!M.map)return;
+   const c=M.map.getCenter();
+   if(Math.abs(c.lat-tgt[0])>.01||Math.abs(c.lng-tgt[1])>.01||Math.abs(M.map.getZoom()-11.3)>.2)
+    M.map.flyTo(tgt,11.3,{duration:.8});
+  },1100);
   if(M.focusM)M.map.removeLayer(M.focusM);
   const ic=L.divIcon({className:'mk',html:'<div class="focus-ring"></div>',iconSize:[0,0],iconAnchor:[0,0]});
   M.focusM=L.marker(ll(id),{icon:ic,interactive:false}).addTo(M.map);
