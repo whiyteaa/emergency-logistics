@@ -1617,9 +1617,11 @@ function fJudgePanel(){
 function fDemandPanel(){
  const agg=Object.values(S.demands).reduce((a,d)=>{a[d.mat]=(a[d.mat]||0)+d.qty;return a;},{});
  const rows=Object.entries(agg).map(([m,q])=>[m,q+MAT_UNIT[m]]);
- showPanel(`<span class="ap-tag">物资需求清单 · 自动生成</span>
+ const el=showPanel(`<span class="ap-tag">物资需求清单 · 自动生成</span>
   ${rows.map(r=>`<div class="ap-row"><span class="k">${MAT_NAME[r[0]]}</span><span class="v">${r[1]}</span></div>`).join('')}
   <div class="ap-sub" style="margin-top:8px">依据：被困${S.affected.length+1}人 · ${['Ⅳ级','Ⅲ级','Ⅱ级'][S.cfg.level-1]}响应定额</div>`,5200);
+ el.querySelectorAll('.ap-row').forEach((r,i)=>{
+  const tm=setTimeout(()=>r.classList.add('vis'),400+i*700);V2T.push(tm);});
 }
 /* 送达确认弹窗（步骤⑨） */
 function fArrival(){
