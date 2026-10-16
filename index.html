@@ -60,16 +60,16 @@ body{
   position:relative;z-index:2;pointer-events:none;transition:grid-template-columns .3s}
 .panel{pointer-events:auto;position:relative;z-index:2;background:transparent;border:0;border-radius:14px;
   display:flex;flex-direction:column;min-height:0;box-shadow:none;backdrop-filter:none;transition:opacity .3s,transform .3s}
-/* 两侧深色区：顶部对齐标题条下沿(42px)，标题条浮于地图上 */
+/* 两侧深色区：从面板顶部（系统标题行下沿）开始铺满 */
 .panel-left{grid-area:1/1/3/2;position:relative}
-.panel-left::before{content:'';position:absolute;top:42px;bottom:0;left:0;right:0;z-index:-1;border-radius:14px 2px 2px 14px;
+.panel-left::before{content:'';position:absolute;top:0;bottom:0;left:0;right:0;z-index:-1;border-radius:14px 2px 2px 14px;
   background:linear-gradient(90deg,rgba(6,21,33,.8) 0%,rgba(6,21,33,.64) 42%,rgba(6,21,33,.5) 72%,rgba(6,21,33,.35) 100%)}
-.panel-left::after{content:'';position:absolute;top:42px;bottom:0;left:100%;width:90px;pointer-events:none;
+.panel-left::after{content:'';position:absolute;top:0;bottom:0;left:100%;width:90px;pointer-events:none;
   background:linear-gradient(90deg,rgba(6,21,33,.35),rgba(6,21,33,.2) 55%,rgba(6,21,33,0))}
 .panel-right{grid-area:1/3/3/4;position:relative}
-.panel-right::before{content:'';position:absolute;top:42px;bottom:0;left:0;right:0;z-index:-1;border-radius:2px 14px 14px 2px;
+.panel-right::before{content:'';position:absolute;top:0;bottom:0;left:0;right:0;z-index:-1;border-radius:2px 14px 14px 2px;
   background:linear-gradient(270deg,rgba(6,21,33,.8) 0%,rgba(6,21,33,.64) 42%,rgba(6,21,33,.5) 72%,rgba(6,21,33,.35) 100%)}
-.panel-right::after{content:'';position:absolute;top:42px;bottom:0;right:100%;width:90px;pointer-events:none;
+.panel-right::after{content:'';position:absolute;top:0;bottom:0;right:100%;width:90px;pointer-events:none;
   background:linear-gradient(270deg,rgba(6,21,33,.35),rgba(6,21,33,.2) 55%,rgba(6,21,33,0))}
 .panel-h{flex:none;font-size:13px;font-weight:700;padding:8px 12px;margin:0 0 10px;border:1px solid rgba(118,168,240,.5);
   display:flex;align-items:center;gap:8px;background:transparent;
